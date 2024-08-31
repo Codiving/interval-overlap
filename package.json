@@ -1,15 +1,16 @@
 {
   "name": "interval-overlap",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "version": "0.0.1",
+  "description": "A class for efficiently managing and analyzing intervals, including detecting overlaps and grouping connected intervals.",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^20.14.0",
+    "tsup": "^8.2.4",
     "typescript": "^5.5.4"
   }
 }
