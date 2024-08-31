@@ -6,14 +6,38 @@ A class for efficiently managing and analyzing intervals, including detecting ov
 
 Package manager
 
-Using npm:
+Using npm:  
 `npm install dental-notation`
 
-Using yarn:
+Using yarn:  
 `yarn add dental-notation`
 
-Using pnpm:
+Using pnpm:  
 `pnpm add dental-notation`
+
+## Features
+
+```typescript
+const intervalOverlap = new IntervalOverlap([]);
+```
+
+`intervalOverlap.addInterval`  
+Add interval
+
+`intervalOverlap.updateInterval`  
+Update interval
+
+`intervalOverlap.removeInterval`  
+Remove interval
+
+`intervalOverlap.findOverlappingIntervals`  
+Find intervals that overlap with a specific interval
+
+`intervalOverlap.findIntervalsInRange`  
+Find intervals that overlap with a specific range
+
+`intervalOverlap.getIntervalGroups`  
+Group intervals that are directly or indirectly overlapping
 
 ## Example
 
@@ -28,7 +52,7 @@ const intervals = [
 
 const intervalOverlap = new IntervalOverlap(intervals);
 
-// find intervals that overlap with a specific interval
+// Find intervals that overlap with a specific interval
 const overlappingIntervals =
   intervalOverlap.findOverlappingIntervals("interval-1");
 console.log(overlappingIntervals);
@@ -44,7 +68,7 @@ console.log(overlappingIntervals);
 //   }
 // ];
 
-// find intervals that overlap with a specific range
+// Find intervals that overlap with a specific range
 const intervalsInRange = intervalOverlap.findIntervalsInRange(2, 7);
 console.log(intervalsInRange);
 // [
@@ -59,7 +83,7 @@ console.log(intervalsInRange);
 //   }
 // ];
 
-// group intervals that are directly or indirectly overlapping
+// Group intervals that are directly or indirectly overlapping
 const overlappingGroups = intervalOverlap.getIntervalGroups();
 console.log(overlappingGroups);
 // [
