@@ -2,12 +2,24 @@
   "name": "interval-overlap",
   "version": "0.0.1",
   "description": "A class for efficiently managing and analyzing intervals, including detecting overlaps and grouping connected intervals.",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsup"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Codiving/interval-overlap"
+  },
+  "keywords": [
+    "interval",
+    "range",
+    "overlap",
+    "overlapping"
+  ],
+  "author": "Codiving",
+  "license": "MIT",
   "devDependencies": {
     "@types/node": "^20.14.0",
     "tsup": "^8.2.4",
