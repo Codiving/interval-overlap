@@ -7,13 +7,13 @@ A class for efficiently managing and analyzing intervals, including detecting ov
 Package manager
 
 Using npm:  
-`npm install dental-notation`
+`npm install interval-overlap`
 
 Using yarn:  
-`yarn add dental-notation`
+`yarn add interval-overlap`
 
 Using pnpm:  
-`pnpm add dental-notation`
+`pnpm add interval-overlap`
 
 ## Features
 
