@@ -1,28 +1,22 @@
-export type Interval =
-  | {
-      begin: number;
-      end: number;
-      id: string;
-    }
-  | {
-      begin: Date;
-      end: Date;
-      id: string;
-    };
+export type Interval<T extends Date | number = number, Extra = {}> = {
+  begin: T;
+  end: T;
+  id: string;
+} & Extra;
 
 interface Graph {
   [key: string]: string[];
 }
 
-export class IntervalOverlap {
-  private intervals: Map<string, Interval> = new Map();
+export class IntervalOverlap<T extends Date | number = number, Extra = {}> {
+  private intervals: Map<string, Interval<T, Extra>> = new Map();
   private graph: Graph = {};
 
-  constructor(initialIntervals: Interval[]) {
-    initialIntervals.forEach(interval => this.addOrUpdateInterval(interval));
+  constructor(initialIntervals: Interval<T, Extra>[]) {
+    initialIntervals.forEach((interval) => this.addOrUpdateInterval(interval));
   }
 
-  private addOrUpdateInterval(interval: Interval): void {
+  private addOrUpdateInterval(interval: Interval<T, Extra>): void {
     this.intervals.set(interval.id, interval);
     this.updateGraph();
   }
@@ -42,7 +36,7 @@ export class IntervalOverlap {
     this.graph = newGraph;
   }
 
-  addInterval(interval: Interval): void {
+  addInterval(interval: Interval<T, Extra>): void {
     if (this.intervals.has(interval.id)) {
       throw new Error(`Interval with id "${interval.id}" already exists.`);
     }
@@ -57,7 +51,7 @@ export class IntervalOverlap {
     }
   }
 
-  updateInterval(updatedInterval: Interval): void {
+  updateInterval(updatedInterval: Interval<T, Extra>): void {
     if (this.intervals.has(updatedInterval.id)) {
       this.addOrUpdateInterval(updatedInterval);
     } else {
@@ -67,14 +61,14 @@ export class IntervalOverlap {
     }
   }
 
-  private isOverlapping(a: Interval, b: Interval): boolean {
+  private isOverlapping(a: Interval<T, Extra>, b: Interval<T, Extra>): boolean {
     return !(a.end <= b.begin || b.end <= a.begin);
   }
 
-  findOverlappingIntervals(start: string): Interval[] {
+  findOverlappingIntervals(start: string): Interval<T, Extra>[] {
     const queue: string[] = [start];
     const visited: Set<string> = new Set(queue);
-    const result: Set<Interval> = new Set();
+    const result: Set<Interval<T, Extra>> = new Set();
 
     while (queue.length > 0) {
       const current = queue.shift();
@@ -97,11 +91,18 @@ export class IntervalOverlap {
     return Array.from(result);
   }
 
-  findIntervalsInRange(begin: Date, end: Date): Interval[];
-  findIntervalsInRange(begin: number, end: number): Interval[];
+  findIntervalsInRange(begin: Date, end: Date): Interval<T, Extra>[];
+  findIntervalsInRange(begin: number, end: number): Interval<T, Extra>[];
 
-  findIntervalsInRange(begin: number | Date, end: number | Date): Interval[] {
-    const tempInterval: Interval = { begin, end, id: "temp" } as Interval;
+  findIntervalsInRange(
+    begin: number | Date,
+    end: number | Date
+  ): Interval<T, Extra>[] {
+    const tempInterval: Interval<T, Extra> = {
+      begin,
+      end,
+      id: "temp",
+    } as Interval<T, Extra>;
     const tempGraph: Graph = {};
 
     for (const interval of this.intervals.values()) {
@@ -117,7 +118,7 @@ export class IntervalOverlap {
 
     const queue: string[] = [];
     const visited: Set<string> = new Set();
-    const result: Set<Interval> = new Set();
+    const result: Set<Interval<T, Extra>> = new Set();
 
     for (const intervalId in tempGraph) {
       queue.push(intervalId);
@@ -164,32 +165,34 @@ export class IntervalOverlap {
     return visited;
   }
 
-  getIntervalGroups(): Interval[][] {
+  getIntervalGroups(): Interval<T, Extra>[][] {
     const allIds = new Set(this.intervals.keys());
-    const result: Interval[][] = [];
+    const result: Interval<T, Extra>[][] = [];
 
     while (allIds.size > 0) {
       const id = allIds.values().next().value;
-      const connectedIds = this.getConnectedIntervals(id);
-      const group: Interval[] = [];
+      if (id) {
+        const connectedIds = this.getConnectedIntervals(id);
+        const group: Interval<T, Extra>[] = [];
 
-      connectedIds.forEach(connectedId => {
-        const interval = this.intervals.get(connectedId);
-        if (!interval) {
-          throw Error(`Interval with id "${connectedId}" does not exist.`);
-        }
+        connectedIds.forEach((connectedId) => {
+          const interval = this.intervals.get(connectedId);
+          if (!interval) {
+            throw Error(`Interval with id "${connectedId}" does not exist.`);
+          }
 
-        group.push(interval);
-        allIds.delete(connectedId);
-      });
+          group.push(interval);
+          allIds.delete(connectedId);
+        });
 
-      result.push(group);
+        result.push(group);
+      }
     }
 
     return result;
   }
 
-  values(): Interval[] {
+  values(): Interval<T, Extra>[] {
     return Array.from(this.intervals.values());
   }
 }
