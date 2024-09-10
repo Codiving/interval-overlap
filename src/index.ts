@@ -188,4 +188,8 @@ export class IntervalOverlap {
 
     return result;
   }
+
+  values(): Interval[] {
+    return Array.from(this.intervals.values());
+  }
 }
