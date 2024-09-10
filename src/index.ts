@@ -97,8 +97,11 @@ export class IntervalOverlap {
     return Array.from(result);
   }
 
-  findIntervalsInRange(begin: number, end: number): Interval[] {
-    const tempInterval: Interval = { begin, end, id: "temp" };
+  findIntervalsInRange(begin: Date, end: Date): Interval[];
+  findIntervalsInRange(begin: number, end: number): Interval[];
+
+  findIntervalsInRange(begin: number | Date, end: number | Date): Interval[] {
+    const tempInterval: Interval = { begin, end, id: "temp" } as Interval;
     const tempGraph: Graph = {};
 
     for (const interval of this.intervals.values()) {
