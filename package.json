@@ -1,6 +1,6 @@
 {
   "name": "interval-overlap",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "A class for efficiently managing and analyzing intervals, including detecting overlaps and grouping connected intervals.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
